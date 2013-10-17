@@ -1,0 +1,20 @@
+<template name="main">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Sensor</th>
+				<th>Time</th>
+				<th>Temperature</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each readings }}
+				<tr>
+					<td>{{ sensor }}</td>
+					<td>{{ time }}</td>
+					<td>{{ temp_f }}</td>
+				</tr>
+			{{/each }}
+		</tbody>
+	</table>
+</template>
