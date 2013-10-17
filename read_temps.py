@@ -35,7 +35,7 @@ def add_reading(sensor, temp_f):
     payload = {
         'sensor': sensor,
         'temp_f': temp_f,
-        'date_time': datetime.datetime.now()
+        'date_time': datetime.datetime.utcnow()
     }
     r = requests.post(url + "/api/readings", data=json.dumps(payload, default=dthandler), headers={'X-Auth-Token': auth_token})
     print "Temp: " + str(temp_f)
