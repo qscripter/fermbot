@@ -12,8 +12,8 @@ os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
 base_dir = '/sys/bus/w1/devices/'
-device_folder = glob.glob(base_dir + '28*')[0]
-device_file = device_folder + '/w1_slave'
+device_folders = glob.glob(base_dir + '28*')
+device_file_suffix = '/w1_slave'
 
 auth_token = '3iXVQ7Kl7LZpyJf6WU0tNfHRp0vZuZbifZNvWuIU'
 
@@ -42,15 +42,15 @@ def add_reading(sensor, temp_f):
     return r.text
 
 
-def read_temp_raw():
+def read_temp_raw(device_file):
         f = open(device_file, 'r')
         lines = f.readlines()
         f.close()
         return lines
 
 
-def read_temp():
-        lines = read_temp_raw()
+def read_temp(device_file):
+        lines = read_temp_raw(device_file)
         while lines[0].strip()[-3:] != 'YES':
                 time.sleep(0.2)
                 lines = read_temp_raw()
@@ -63,4 +63,11 @@ def read_temp():
                 return temp_f
 
 
-add_reading("fermentor 1", read_temp())
+def read_all_temps():
+	for device_folder in device_folders:
+		sensor = device_folder.split('/')[-1]	
+		temp = read_temp(device_folder + device_file_suffix)
+		add_reading(sensor, temp)
+
+
+read_all_temps()
