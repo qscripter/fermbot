@@ -64,10 +64,10 @@ def read_temp(device_file):
 
 
 def read_all_temps():
-	for device_folder in device_folders:
-		sensor = device_folder.split('/')[-1]	
-		temp = read_temp(device_folder + device_file_suffix)
-		add_reading(sensor, temp)
+    for device_folder in device_folders:
+        sensor = device_folder.split('/')[-1]
+        temp = read_temp(device_folder + device_file_suffix)
+        add_reading(sensor, temp)
 
 
 read_all_temps()
