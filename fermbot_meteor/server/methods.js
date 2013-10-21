@@ -1,5 +1,5 @@
 Meteor.methods({
-	getReadings: function () {
-		return Readings.find().fetch();
+	getReadings: function (sensorAddresses) {
+		return Readings.find({sensor: sensorAddress}).fetch();
 	}
 });

@@ -1,0 +1,18 @@
+<template name="sensors">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Sensor Address</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each sensors }}
+				<tr>
+					<td>{{ Name }}</td>
+					<td>{{ address }}</td>
+				</tr>
+			{{/each }}
+		</tbody>
+	</table>
+</template>
