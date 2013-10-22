@@ -1,5 +1,5 @@
 Meteor.Router.add({
-	'/': 'main',
+	'/': 'sensorData',
 	'/sensors': 'sensors',
 	'/chart': 'chart'
 });

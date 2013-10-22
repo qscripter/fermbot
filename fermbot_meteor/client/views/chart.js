@@ -8,13 +8,13 @@ function zoomChart() {
 }
 
 // generate some random data, quite different range
-function drawChart() {
+function drawChart(addresses) {
 
         // SERIAL CHART    
         chart = new AmCharts.AmSerialChart();
         chart.pathToImages = "/amcharts/images/";
         chart.dataProvider = chartData;
-        chart.categoryField = "date_time";
+        chart.categoryField = "date";
         chart.balloon.bulletSize = 5;
 
         // listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
@@ -36,19 +36,22 @@ function drawChart() {
         valueAxis.dashLength = 1;
         chart.addValueAxis(valueAxis);
 
-        // GRAPH
-        var graph = new AmCharts.AmGraph();
-        graph.title = "red line";
-        graph.valueField = "temp_f";
-        graph.bullet = "round";
-        graph.bulletBorderColor = "#FFFFFF";
-        graph.bulletBorderThickness = 2;
-        graph.bulletBorderAlpha = 1;
-        graph.lineThickness = 2;
-        graph.lineColor = "#5fb503";
-        graph.negativeLineColor = "#efcc26";
-        graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
-        chart.addGraph(graph);
+        _.each(addresses, function (address) {
+                // GRAPH
+                var graph = new AmCharts.AmGraph();
+                graph.title = address;
+                graph.valueField = address;
+                graph.bullet = "round";
+                graph.bulletBorderColor = "#FFFFFF";
+                graph.bulletBorderThickness = 2;
+                graph.bulletBorderAlpha = 1;
+                graph.lineThickness = 2;
+                graph.lineColor = "#5fb503";
+                graph.negativeLineColor = "#efcc26";
+                graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
+                chart.addGraph(graph);
+        });
+
 
         // CURSOR
         chartCursor = new AmCharts.ChartCursor();
@@ -66,9 +69,12 @@ function drawChart() {
 
 
 Template.chart.rendered = function () {
-        Meteor.call("getReadings", "28-0000043aa9b1", function(err, data) {
-                console.log(data);
+        var addresses = _.map(Sensors.find().fetch(), function (item) {
+                return item.address;
+        });
+        console.log(addresses);
+        Meteor.call("getReadings", addresses, function(err, data) {
                 chartData = data;
-                drawChart();
+                drawChart(addresses);
         });
 };
