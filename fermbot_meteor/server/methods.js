@@ -14,5 +14,14 @@ Meteor.methods({
 			_.each(Readings.find({sensor: sensorAddresses[i]}).fetch(), addItem);
 		}
 		return data;
+	},
+	getSensors: function () {
+		return Sensors.find().fetch();
+	},
+	deleteSensors: function () {
+		Sensors.remove({}, {multi: true});
+	},
+	cleanReadings: function () {
+		Readings.remove({temp_f: {$gt: 150}}, {multi: true});
 	}
 });

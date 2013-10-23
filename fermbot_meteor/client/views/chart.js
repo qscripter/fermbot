@@ -1,5 +1,14 @@
 var chart;
 var chartCursor;
+var colors = [
+        "#FF0000",
+        "#FF7400",
+        "#009999",
+        "#00CC00",
+        "#A60000",
+        "#A64B00",
+        "#006363",
+        "#008500"];
 
 // this method is called when chart is first inited as we listen for "dataUpdated" event
 function zoomChart() {
@@ -24,7 +33,7 @@ function drawChart(addresses) {
         // category
         var categoryAxis = chart.categoryAxis;
         categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
-        categoryAxis.minPeriod = "hh"; // our data is daily, so we set minPeriod to DD
+        categoryAxis.minPeriod = "mm"; // our data is daily, so we set minPeriod to DD
         categoryAxis.dashLength = 1;
         categoryAxis.minorGridEnabled = true;
         categoryAxis.position = "top";
@@ -36,18 +45,17 @@ function drawChart(addresses) {
         valueAxis.dashLength = 1;
         chart.addValueAxis(valueAxis);
 
-        _.each(addresses, function (address) {
+        _.each(addresses, function (address, index, list) {
                 // GRAPH
                 var graph = new AmCharts.AmGraph();
                 graph.title = address;
                 graph.valueField = address;
                 graph.bullet = "round";
-                graph.bulletBorderColor = "#FFFFFF";
+                graph.bulletBorderColor = colors[index];
                 graph.bulletBorderThickness = 2;
                 graph.bulletBorderAlpha = 1;
                 graph.lineThickness = 2;
-                graph.lineColor = "#5fb503";
-                graph.negativeLineColor = "#efcc26";
+                graph.lineColor = colors[index];
                 graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
                 chart.addGraph(graph);
         });
@@ -56,6 +64,7 @@ function drawChart(addresses) {
         // CURSOR
         chartCursor = new AmCharts.ChartCursor();
         chartCursor.cursorPosition = "mouse";
+        chartCursor.oneBalloonOnly = false;
         chartCursor.pan = true; // set it to fals if you want the cursor to work in "select" mode
         chart.addChartCursor(chartCursor);
 
@@ -69,12 +78,15 @@ function drawChart(addresses) {
 
 
 Template.chart.rendered = function () {
-        var addresses = _.map(Sensors.find().fetch(), function (item) {
-                return item.address;
-        });
-        console.log(addresses);
-        Meteor.call("getReadings", addresses, function(err, data) {
-                chartData = data;
-                drawChart(addresses);
+        var addresses;
+        Meteor.call("getSensors", function (err,data) {
+                addresses = _.map(data, function(item) {
+                        return item.sensorAddress;
+                });
+                Meteor.call("getReadings", addresses, function(err, data) {
+                        console.log(data);
+                        chartData = data;
+                        drawChart(addresses);
+                });
         });
 };

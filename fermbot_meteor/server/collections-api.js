@@ -8,6 +8,8 @@ Meteor.startup(function () {
 		before: {
 			POST: function (obj) {
 				obj.date_time = new Date(obj.date_time);
+				Sensors.update({sensorAddress: obj.sensor}, {$set: {currentTemp: obj.temp_f, updated: obj.date_time}});
+				Meteor.call("cleanReadings");
 				return true;
 			}
 		}
