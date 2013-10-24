@@ -56,7 +56,7 @@ function drawChart(addresses) {
                 graph.bulletBorderAlpha = 1;
                 graph.lineThickness = 2;
                 graph.lineColor = colors[index];
-                graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
+                graph.hideBulletsCount = 1; // this makes the chart to hide bullets when there are more than 50 series in selection
                 chart.addGraph(graph);
         });
 
@@ -84,9 +84,21 @@ Template.chart.rendered = function () {
                         return item.sensorAddress;
                 });
                 Meteor.call("getReadings", addresses, function(err, data) {
-                        console.log(data);
                         chartData = data;
                         drawChart(addresses);
                 });
         });
 };
+/*
+Deps.autorun( function () {
+        if (Sensors) {
+                var addresses = Sensors.find().fetch();
+                addresses = _.map(addresses, function(item) {
+                        return item.sensorAddress;
+                });
+                Meteor.call("getReadings", addresses, function (err, data) {
+                        chartData = data;
+                });
+        }
+});
+*/

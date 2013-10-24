@@ -11,7 +11,9 @@ Meteor.methods({
 	getReadings: function (sensorAddresses) {
 		data = [];
 		for (var i=0; i < sensorAddresses.length; i++) {
-			_.each(Readings.find({sensor: sensorAddresses[i]}).fetch(), addItem);
+			var today = new Date();
+			var yesterday = new Date(today.setDate(today.getDate() - 1));
+			_.each(Readings.find({sensor: sensorAddresses[i], date_time: {$gt: yesterday}}).fetch(), addItem);
 		}
 		return data;
 	},

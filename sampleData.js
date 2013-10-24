@@ -236,3 +236,120 @@ function insertSensors () {
 		Sensors.insert(sensors[i]);
 	}
 }
+
+function printListings (listings) {
+	var data = [];
+	for (var i=0; i < listings.length; i++) {
+		var title = $(listings[i]).find('h3').find('a').text();
+		var number = title.substring(0,6);
+		var name = title.substring(7).trim();
+		var fermTemp = $($(listings[i]).find('.specCol')[2]).text().replace("Optimum Ferment Temp:","").trim();
+		data.push({
+			number: number,
+			name: name,
+			fermTemp: fermTemp
+		});
+	}
+	console.log(JSON.stringify(data));
+}
+
+var yeastData = [
+	{"number":"WLP001","name":"California Ale Yeast","fermTemp":"68-73°F"},
+	{"number":"WLP002","name":"English Ale Yeast","fermTemp":"65-68°F"},
+	{"number":"WLP004","name":"Irish Ale Yeast","fermTemp":"65-68°F"},
+	{"number":"WLP005","name":"British Ale Yeast","fermTemp":"65-70°F"},
+	{"number":"WLP006","name":"Bedford British","fermTemp":"65-70°F"},
+	{"number":"WLP007","name":"Dry English Ale Yeast","fermTemp":"65-70°F"},
+	{"number":"WLP008","name":"East Coast Ale Yeast","fermTemp":"68-73°F"},
+	{"number":"WLP009","name":"Australian Ale Yeast","fermTemp":"65-70°F"},
+	{"number":"WLP011","name":"European Ale Yeast","fermTemp":"65-70°F"},
+	{"number":"WLP013","name":"London Ale Yeast","fermTemp":"66-71°F"},
+	{"number":"WLP017","name":"Whitbread Ale Yeast","fermTemp":"66-70°F (19-21°C)"},
+	{"number":"WLP022","name":"Essex Ale Yeast","fermTemp":"66-70°F"},
+	{"number":"WLP023","name":"Burton Ale Yeast","fermTemp":"68-73°F"},
+	{"number":"WLP028","name":"Edinburgh Scottish Ale Yeast","fermTemp":"65-70°F (Does not ferment well less than 62°F)"},
+	{"number":"WLP029","name":"German Ale/ Kölsch Yeast","fermTemp":"65-69°F (Does not ferment well less than 62°F, unless during active fermentation.)"},
+	{"number":"WLP036","name":"Dusseldorf Alt Yeast","fermTemp":"65-69°F"},
+	{"number":"WLP037","name":"Yorkshire Square Ale Yeast","fermTemp":"65-70°F"},
+	{"number":"WLP038","name":"Manchester Ale Yeast","fermTemp":"65-70°F"},
+	{"number":"WLP039","name":"East Midlands Ale Yeast","fermTemp":"66-70°F"},
+	{"number":"WLP041","name":"Pacific Ale Yeast","fermTemp":"65-68°F"},
+	{"number":"WLP045","name":"Scotch Whisky Yeast","fermTemp":"72-77°F"},
+	{"number":"WLP050","name":"Tennessee Whiskey Yeast","fermTemp":"75-79°F"},
+	{"number":"WLP051","name":"California Ale V Yeast","fermTemp":"66-70°F"},
+	{"number":"WLP060","name":"American Ale Yeast Blend","fermTemp":"68-72°F"},
+	{"number":"WLP065","name":"American Whiskey Yeast","fermTemp":"75-82°F"},
+	{"number":"WLP070","name":"Bourbon Yeast","fermTemp":"72-77°F"},
+	{"number":"WLP072","name":"French Ale","fermTemp":"63-73°F (17-23°C)"},
+	{"number":"WLP076","name":"Old Sonoma Ale Yeast","fermTemp":"66-70°F"},
+	{"number":"WLP078","name":"Neutral Grain Yeast","fermTemp":"76-85°F"},
+	{"number":"WLP080","name":"Cream Ale Yeast Blend","fermTemp":"65-70°F"},
+	{"number":"WLP085","name":"English Ale Blend","fermTemp":"68-72°F"},
+	{"number":"WLP090","name":"San Diego Super Yeast","fermTemp":"65-68F"},
+	{"number":"WLP099","name":"Super High Gravity Ale Yeast","fermTemp":"65-69°F"},
+	{"number":"WLP300","name":"Hefeweizen Ale Yeast","fermTemp":"68-72°F"},
+	{"number":"WLP320","name":"American Hefeweizen Ale Yeast","fermTemp":"65-69°F"},
+	{"number":"WLP351","name":"Bavarian Weizen Yeast","fermTemp":"66-70°F"},
+	{"number":"WLP380","name":"Hefeweizen IV Ale Yeast","fermTemp":"66-70°F"},
+	{"number":"WLP400","name":"Belgian Wit Ale Yeast","fermTemp":"67-74°F"},
+	{"number":"WLP410","name":"Belgian Wit II Ale Yeast","fermTemp":"67-74°F"},
+	{"number":"WLP500","name":"Trappist Ale Yeast","fermTemp":"65-72°F Lower temperatures (under 65°F) will result in less fruity and more earthy beers."},
+	{"number":"WLP510","name":"Bastogne Belgian Ale Yeast","fermTemp":"66-72°F"},
+	{"number":"WLP515","name":"Antwerp Ale Yeast","fermTemp":"67-70°F"},
+	{"number":"WLP530","name":"Abbey Ale Yeast","fermTemp":"66-72°F"},
+	{"number":"WLP540","name":"Abbey IV Ale Yeast","fermTemp":"66-72°F"},
+	{"number":"WLP545","name":"Belgian Strong Ale Yeast","fermTemp":"66-72°F"},
+	{"number":"WLP550","name":"Belgian Ale Yeast","fermTemp":"68-78°F"},
+	{"number":"WLP565","name":"Belgian Saison I Yeast","fermTemp":"68-75°F"},
+	{"number":"WLP566","name":"Belgian Saison II Yeast","fermTemp":"68-78°F"},
+	{"number":"WLP568","name":"Belgian Style Saison Ale Yeast Blend","fermTemp":"70-80°F (21-27°C)"},
+	{"number":"WLP570","name":"Belgian Golden Ale Yeast","fermTemp":"68-75°F (20-24°C)"},
+	{"number":"WLP575","name":"Belgian Style Ale Yeast Blend","fermTemp":"68-75°F (20-24°C)"},
+	{"number":"WLP585","name":"Belgian Saison III Yeast","fermTemp":"68-75°F"},
+	{"number":"WLP630","name":"Berliner Weisse Blend","fermTemp":"68-72°F  (20-22°C)"},
+	{"number":"WLP644","name":"Brettanomyces bruxellensis Trois","fermTemp":"70-85°F"},
+	{"number":"WLP645","name":"Brettanomyces claussenii","fermTemp":"85°+"},
+	{"number":"WLP650","name":"Brettanomyces bruxellensis","fermTemp":"85°+"},
+	{"number":"WLP653","name":"Brettanomyces lambicus","fermTemp":"85°+"},
+	{"number":"WLP655","name":"Belgian Sour Mix 1","fermTemp":"80-85%+"},
+	{"number":"WLP665","name":"Flemish Ale Blend","fermTemp":"68-80F"},
+	{"number":"WLP670","name":"American Farmhouse Blend","fermTemp":"68-72°F  (20-22°C)"},
+	{"number":"WLP675","name":"Malolactic Cultures","fermTemp":""},
+	{"number":"WLP677","name":"Lactobacillus Bacteria","fermTemp":"70-75°F"},
+	{"number":"WLP700","name":"Flor Sherrry Yeast","fermTemp":">70°F (21°C)"},
+	{"number":"WLP705","name":"Sake Yeast","fermTemp":">70°F (21°C)"},
+	{"number":"WLP707","name":"California Pinot Noir Yeast","fermTemp":">70° F (21°C)"},
+	{"number":"WLP709","name":"Sake #9 Yeast","fermTemp":"62-68°F (17-20°C)"},
+	{"number":"WLP715","name":"Champagne Yeast","fermTemp":"70-75°F (21-24°C)"},
+	{"number":"WLP718","name":"Avize Wine Yeast","fermTemp":"60-90°F (16-32°C)"},
+	{"number":"WLP720","name":"Sweet Mead/Wine Yeast","fermTemp":"70-75°F (21-24°C)"},
+	{"number":"WLP727","name":"Steinberg-Geisenheim Wine Yeast","fermTemp":"50-90°F (10-32°C)"},
+	{"number":"WLP730","name":"Chardonnay White Wine Yeast","fermTemp":"50-90°F (10-32°C)"},
+	{"number":"WLP735","name":"French White Wine Yeast","fermTemp":"60-90°F (16-32°C)"},
+	{"number":"WLP740","name":"Merlot Red Wine Yeast","fermTemp":"60-90°F (16-32°C)"},
+	{"number":"WLP749","name":"Assmanshausen Wine Yeast","fermTemp":"50-90°F (10-32°C)"},
+	{"number":"WLP750","name":"French Red Wine Yeast","fermTemp":"60-90°F (16-32°C)"},
+	{"number":"WLP760","name":"Cabernet Red Wine Yeast","fermTemp":"60-90°F (16-32°C)"},
+	{"number":"WLP770","name":"Suremain Burgundy Wine Yeast","fermTemp":"60-90°F (16-32°C)"},
+	{"number":"WLP775","name":"English Cider Yeast","fermTemp":"68-75°F (20-24°C)"},
+	{"number":"WLP800","name":"Pilsner Lager Yeast","fermTemp":"50-55°F (10-13°C)"},
+	{"number":"WLP802","name":"Czech Budejovice Lager Yeast","fermTemp":"50-55°F (10-13°C)"},
+	{"number":"WLP810","name":"San Francisco Lager Yeast","fermTemp":"58-65°F (14-18°C)"},
+	{"number":"WLP815","name":"Belgian Lager Yeast","fermTemp":"50-55°F (10-12°C)"},
+	{"number":"WLP820","name":"Oktoberfest/Märzen Lager Yeast","fermTemp":"52-58°F (11-14°C)"},
+	{"number":"WLP830","name":"German Lager Yeast","fermTemp":"50-55°F (10-13°C)"},
+	{"number":"WLP833","name":"German Bock Lager Yeast","fermTemp":"48-55°F (9-13°C)"},
+	{"number":"WLP838","name":"Southern German Lager Yeast","fermTemp":"50-55°F (10-13°C)"},
+	{"number":"WLP840","name":"American Lager Yeast","fermTemp":"50-55°F (10-13°C)"},
+	{"number":"WLP860","name":"Munich Helles Yeast","fermTemp":"48-52°F"},
+	{"number":"WLP862","name":"Cry Havoc","fermTemp":"55-58°F (13-14°C)"},
+	{"number":"WLP885","name":"Zurich Lager Yeast","fermTemp":"50-55°F (10-13°C)"},
+	{"number":"WLP920","name":"Old Bavarian Lager Yeast","fermTemp":"50-55°F (10-13°C)"},
+	{"number":"WLP940","name":"Mexican Lager Yeast","fermTemp":"50-55°F (10-13°C)"}
+];
+
+function insertYeastData () {
+	for (var i=0; i < yeastData.length; i++) {
+		Yeasts.insert(yeastData[i]);
+	}
+}
