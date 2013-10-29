@@ -9,3 +9,7 @@ Meteor.publish("all-brews", function () {
 Meteor.publish("all-yeasts", function () {
 	return Yeasts.find();
 });
+
+Meteor.publish("all-locations", function () {
+	return Locations.find();
+});

@@ -12,9 +12,24 @@ Meteor.startup(function () {
 					// round date to 5 minute increments
 					var coeff = 1000 * 60 * 5; // milliseconds * seconds * 5 minutes
 					obj.date_time = new Date(Math.round(date.getTime() / coeff) * coeff);
-					Sensors.update({sensorAddress: obj.sensor}, {$set: {currentTemp: obj.temp_f, updated: obj.date_time}});
+
+					// assign the reading to a brew or a location
+					var sensor = Sensors.findOne({sensorAddress: obj.sensor});
+					var brew = Brews.findOne({sensor: sensor._id});
+					var location = Locations.findOne({sensor: sensor._id});
+					if (brew) {
+						Brews.update(brew._id, {$set: {currentTemp: obj.temp_f, updated: obj.date_time}});
+						obj.thing = brew._id;
+					} else if (location) {
+						Locations.update(location._id, {$set: {currentTemp: obj.temp_f, updated: obj.date_time}});
+						obj.thing = location._id;
+					} else {
+						// sensor is unassigned and doesn't need to be read
+						return false;
+					}
 					return true;
 				} else {
+					// sensor is not a valid reading and should be discarded
 					return false;
 				}
 			}
@@ -22,4 +37,11 @@ Meteor.startup(function () {
 	});
 
 	collectionApi.start();
+
+	Sensors.find({assigned: false}).observe({
+		added: function(document) {
+			console.log(document);
+		}
+	});
 });
+

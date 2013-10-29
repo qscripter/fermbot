@@ -1,5 +1,6 @@
 var chart;
 var chartCursor;
+var chartData;
 var colors = [
         "#FF0000",
         "#FF7400",
@@ -17,7 +18,7 @@ function zoomChart() {
 }
 
 // generate some random data, quite different range
-function drawChart(addresses) {
+function drawChart(brew) {
 
         // SERIAL CHART    
         chart = new AmCharts.AmSerialChart();
@@ -45,20 +46,18 @@ function drawChart(addresses) {
         valueAxis.dashLength = 1;
         chart.addValueAxis(valueAxis);
 
-        _.each(addresses, function (address, index, list) {
-                // GRAPH
-                var graph = new AmCharts.AmGraph();
-                graph.title = address;
-                graph.valueField = address;
-                graph.bullet = "round";
-                graph.bulletBorderColor = colors[index];
-                graph.bulletBorderThickness = 2;
-                graph.bulletBorderAlpha = 1;
-                graph.lineThickness = 2;
-                graph.lineColor = colors[index];
-                graph.hideBulletsCount = 1; // this makes the chart to hide bullets when there are more than 50 series in selection
-                chart.addGraph(graph);
-        });
+        // GRAPH
+        var graph = new AmCharts.AmGraph();
+        graph.title = brew.name;
+        graph.valueField = brew.name;
+        graph.bullet = "round";
+        graph.bulletBorderColor = colors[0];
+        graph.bulletBorderThickness = 2;
+        graph.bulletBorderAlpha = 1;
+        graph.lineThickness = 2;
+        graph.lineColor = colors[0];
+        graph.hideBulletsCount = 1; // this makes the chart to hide bullets when there are more than 50 series in selection
+        chart.addGraph(graph);
 
 
         // CURSOR
@@ -79,14 +78,10 @@ function drawChart(addresses) {
 
 Template.chart.rendered = function () {
         var addresses;
-        Meteor.call("getSensors", function (err,data) {
-                addresses = _.map(data, function(item) {
-                        return item.sensorAddress;
-                });
-                Meteor.call("getReadings", addresses, function(err, data) {
-                        chartData = data;
-                        drawChart(addresses);
-                });
+        Meteor.call("getBrewChart", this.data._id, function(err, data) {
+                console.log(data);
+                chartData = data;
+                drawChart(this);
         });
 };
 /*

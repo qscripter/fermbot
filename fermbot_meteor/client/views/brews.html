@@ -1,0 +1,45 @@
+<template name="brews">
+	<div class="row">
+		<div class="col-md-12">
+			<form class="form-inline pull-right">
+				<div class="form-group">
+					<input id="brew-name" type="text" placeholder="Add a brew" class="form-control">
+				</div>
+				<a href='#' id="add-brew" class="btn btn-primary">Add</a>
+			</form>
+		</div>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Sensor</th>
+				<th>Location</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each brews }}
+				<tr>
+					<td>{{ name }}</td>
+					<td>
+						<select brewId="{{ _id }}" class="select-sensor">
+							<option></option>
+							{{#each sensors }}
+								<option value="{{ _id }}" {{#if sensorSelected _id ../_id}}selected="selected"{{/if}}>{{ sensorAddress }}</option>
+							{{/each }}
+						</select>
+					</td>
+					<td>
+						<select brewId="{{ _id }}" class="select-location">
+							<option></option>
+							{{#each locations }}
+								<option value="{{ _id }}" {{#if locationSelected _id ../_id}}selected="selected"{{/if}}>{{ name }}</option>
+							{{/each }}
+					</td>
+					<td>{{ status }}</td>
+				</tr>
+			{{/each }}
+		</tbody>
+	</table>
+</template>

@@ -1,9 +1,11 @@
 Meteor.subscribe("all-sensors");
 Meteor.subscribe("all-brews");
 Meteor.subscribe("all-yeasts");
+Meteor.subscribe("all-locations");
 
 Meteor.Router.add({
-	'/': 'sensorData',
+	'/': 'home',
 	'/sensors': 'sensors',
-	'/chart': 'chart'
+	'/chart': 'chart',
+	'/brews': 'brews'
 });
