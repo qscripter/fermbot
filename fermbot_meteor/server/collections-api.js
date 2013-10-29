@@ -13,6 +13,9 @@ Meteor.startup(function () {
 					var coeff = 1000 * 60 * 5; // milliseconds * seconds * 5 minutes
 					obj.date_time = new Date(Math.round(date.getTime() / coeff) * coeff);
 
+					// round temp
+					obj.temp_f = Math.round(obj.temp_f * 100) / 100;
+
 					// assign the reading to a brew or a location
 					var sensor = Sensors.findOne({sensorAddress: obj.sensor});
 					var brew = Brews.findOne({sensor: sensor._id});

@@ -44,6 +44,8 @@ function drawChart(brew) {
         var valueAxis = new AmCharts.ValueAxis();
         valueAxis.axisAlpha = 0;
         valueAxis.dashLength = 1;
+        valueAxis.minimum = 25;
+        valueAxis.maximum = 100;
         chart.addValueAxis(valueAxis);
 
         // GRAPH
@@ -59,6 +61,19 @@ function drawChart(brew) {
         graph.hideBulletsCount = 1; // this makes the chart to hide bullets when there are more than 50 series in selection
         chart.addGraph(graph);
 
+        // Location Temp
+        var locationGraph = new AmCharts.AmGraph();
+        locationGraph.title = "Location";
+        locationGraph.valueField = "locationTemp";
+        locationGraph.bullet = "round";
+        locationGraph.bulletBorderColor = colors[1];
+        locationGraph.bulletBorderThickness = 2;
+        locationGraph.bulletBorderAlpha = 1;
+        locationGraph.lineThickness = 2;
+        locationGraph.lineColor = colors[1];
+        locationGraph.hideBulletsCount = 1; // this makes the chart to hide bullets when there are more than 50 series in selection
+        chart.addGraph(locationGraph);
+
 
         // CURSOR
         chartCursor = new AmCharts.ChartCursor();
@@ -72,16 +87,18 @@ function drawChart(brew) {
         chart.addChartScrollbar(chartScrollbar);
 
         // WRITE
-        chart.write("chartdiv");
+        var chartId = "chart_" + brew._id;
+        chart.write(chartId);
 }
 
 
 Template.chart.rendered = function () {
         var addresses;
+        var brew = this.data;
         Meteor.call("getBrewChart", this.data._id, function(err, data) {
                 console.log(data);
                 chartData = data;
-                drawChart(this);
+                drawChart(brew);
         });
 };
 /*

@@ -8,14 +8,8 @@ function addItem(item) {
 }
 
 Meteor.methods({
-	getReadings: function (sensorAddresses) {
-		data = [];
-		for (var i=0; i < sensorAddresses.length; i++) {
-			var today = new Date();
-			var yesterday = new Date(today.setDate(today.getDate() - 1));
-			_.each(Readings.find({sensor: sensorAddresses[i], date_time: {$gt: yesterday}}).fetch(), addItem);
-		}
-		return data;
+	getReadings: function (thingId) {
+		return Readings.find({thing: thingId}).fetch();
 	},
 	getSensors: function () {
 		return Sensors.find().fetch();
@@ -39,17 +33,22 @@ Meteor.methods({
 	},
 	getBrewChart: function (brewId) {
 		var brew = Brews.findOne(brewId);
+		var location = Locations.findOne(brew.location);
 		var mostRecentReadingTime = new Date(Brews.updated);
 		var oldDate = new Date(mostRecentReadingTime.setDate(mostRecentReadingTime.getDate() - 1));
 		var data = [];
 		function addItem(item) {
 			var element = {};
-			element[item.sensor] = item.temp_f;
+			element[brew.name] = item.temp_f;
+			var reading = Readings.findOne({thing: location._id, date_time: item.date_time});
+			if (reading) {
+				element.locationTemp = reading.temp_f;
+			}
 			element.date = item.date_time;
 			data.push(element);
 		}
 		//
-		Readings.find({date_time: {$gt: oldDate}, brew: brew._id}).forEach(addItem);
+		Readings.find({date_time: {$gt: oldDate}, thing: brew._id}).forEach(addItem);
 		return data;
 	},
 	createBrew: function (name) {
