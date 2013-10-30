@@ -1,3 +1,30 @@
 .content {
 	padding-top: 60px;
 }
+
+.brew-detail {
+	padding-bottom: 10px;
+}
+
+.title {
+	font-size: 24pt;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 500;
+	line-height: 1.1;
+	padding-bottom: 0;
+}
+
+.sub-title {
+	font-size: 18pt;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 500;
+	padding-bottom: 0;
+}
+
+.sub2-title {
+	font-size: 14pt;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 500;
+	padding-bottom: 0;
+	padding-left: 20px;
+}

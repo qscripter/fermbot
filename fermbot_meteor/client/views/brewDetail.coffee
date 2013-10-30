@@ -1,2 +1,2 @@
-Template.brewDetail.roundedTemp = ->
-	return Math.round(this.currentTemp * 100) / 100
+Template.brewDetail.locationName = ->
+	return Locations.findOne(this.location).name

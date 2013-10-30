@@ -1,15 +1,6 @@
 var chart;
 var chartCursor;
 var chartData;
-var colors = [
-        "#FF0000",
-        "#FF7400",
-        "#009999",
-        "#00CC00",
-        "#A60000",
-        "#A64B00",
-        "#006363",
-        "#008500"];
 
 // this method is called when chart is first inited as we listen for "dataUpdated" event
 function zoomChart() {
@@ -53,11 +44,11 @@ function drawChart(brew) {
         graph.title = brew.name;
         graph.valueField = brew.name;
         graph.bullet = "round";
-        graph.bulletBorderColor = colors[0];
+        graph.bulletBorderColor = "#0772a1";
         graph.bulletBorderThickness = 2;
         graph.bulletBorderAlpha = 1;
         graph.lineThickness = 2;
-        graph.lineColor = colors[0];
+        graph.lineColor = "#0772a1";
         graph.hideBulletsCount = 1; // this makes the chart to hide bullets when there are more than 50 series in selection
         chart.addGraph(graph);
 
@@ -66,11 +57,11 @@ function drawChart(brew) {
         locationGraph.title = "Location";
         locationGraph.valueField = "locationTemp";
         locationGraph.bullet = "round";
-        locationGraph.bulletBorderColor = colors[1];
+        locationGraph.bulletBorderColor = "#FF8700";
         locationGraph.bulletBorderThickness = 2;
         locationGraph.bulletBorderAlpha = 1;
         locationGraph.lineThickness = 2;
-        locationGraph.lineColor = colors[1];
+        locationGraph.lineColor = "#FF8700";
         locationGraph.hideBulletsCount = 1; // this makes the chart to hide bullets when there are more than 50 series in selection
         chart.addGraph(locationGraph);
 
@@ -96,7 +87,6 @@ Template.chart.rendered = function () {
         var addresses;
         var brew = this.data;
         Meteor.call("getBrewChart", this.data._id, function(err, data) {
-                console.log(data);
                 chartData = data;
                 drawChart(brew);
         });

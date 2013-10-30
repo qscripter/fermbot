@@ -1,2 +1,2 @@
 Template.home.brews = ->
-	return Brews.find()
+	return Brews.find({sensor: {$not: ""}})

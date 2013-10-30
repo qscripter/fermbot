@@ -1,10 +1,10 @@
 <template name="brewDetail">
-	<div class="row">
-		<div class="col-md-8">
-			<h3>{{ name }}</h3>
+	<div class="row brew-detail">
+		<div class="col-md-8 col-xs-6">
+			<span class="title">{{ name }}</span><span class="sub2-title">{{ locationName }}</span>
 		</div>
-		<div class="col-md4">
-			<h3>{{ roundedTemp }}° F</h3>
+		<div class="col-md-4 col-xs-6">
+			<span class="sub-title">{{ currentTemp }}° F</span>
 		</div>
 		{{> chart }}
 	</div>
