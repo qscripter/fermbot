@@ -34,7 +34,7 @@ Meteor.methods({
 	getBrewChart: function (brewId) {
 		var brew = Brews.findOne(brewId);
 		var location = Locations.findOne(brew.location);
-		var mostRecentReadingTime = new Date(Brews.updated);
+		var mostRecentReadingTime = new Date(brew.updated);
 		var oldDate = new Date(mostRecentReadingTime.setDate(mostRecentReadingTime.getDate() - 1));
 		var data = [];
 		function addItem(item) {
